@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WURGER - Dashboard</title>
+<link rel="stylesheet" href="./css/style.css">
+  <!-- Font Awesome para íconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Righteous&display=swap" rel="stylesheet">
+
+  <style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f5f6fa;
+    color: #333;
+  }
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1100;
+    background: #2f3542;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background: #2f3542;
+    color: #f1f1f1;
+    padding-top: 30px;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    font-family: 'Righteous', sans-serif;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .sidebar-header {
+    padding: 1rem;
+    font-size: 1.8rem;
+    color: #dcdcdc;
+  }
+
+  .sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin-top: 30px;
+  }
+
+  .sidebar-menu li a {
+    color: #2196f3;
+    text-decoration: none;
+    display: block;
+    padding: 15px 20px;
+    font-size: 1rem;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  .sidebar-menu li a:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #64b5f6;
+  }
+
+  .submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .has-submenu.active .submenu {
+    max-height: 500px;
+  }
+
+  .submenu li a {
+    color: #ddd;
+    padding: 10px 40px;
+    font-size: 0.95rem;
+  }
+
+  .submenu li a:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #64b5f6;
+  }
+
+  .has-submenu .chevron-icon {
+    float: right;
+    transition: transform 0.3s ease;
+  }
+
+  .has-submenu.active .chevron-icon {
+    transform: rotate(180deg);
+  }
+
+  @media (min-width: 768px) {
+    .sidebar {
+      left: 0;
+    }
+
+    .content-wrapper {
+      margin-left: 250px;
+    }
+
+    .hamburger {
+      display: none;
+    }
+  }
+
+  .hamburger {
+    display: block;
+    cursor: pointer;
+    font-size: 1.4rem;
+    padding: 15px;
+    color: #2f3542;
+  }
+
+  .content-wrapper {
+    padding: 80px 20px 40px;
+  }
+
+  .formulario {
+    background: #ffffff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 600px;
+  }
+
+  .formulario label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .formulario input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .btn {
+    background: #2196f3;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 0.95rem;
+    transition: background 0.3s;
+  }
+
+  .btn:hover {
+    background: #1976d2;
+  }
+
+  #tablaUsuario {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  #tablaUsuario th,
+  #tablaUsuario td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+
+  #tablaUsuario thead {
+    background: #2196f3;
+    color: white;
+  }
+
+  #tablaUsuario tbody tr:hover {
+    background: #f1f1f1;
+  }
+
+  .btn-actualizar {
+    background: #43a047;
+  }
+
+  .btn-actualizar:hover {
+    background: #2e7d32;
+  }
+
+  .btn-eliminar {
+    background: #e53935;
+  }
+
+  .btn-eliminar:hover {
+    background: #c62828;
+  }
+
+  .btn-imprimir {
+    background: #fbc02d;
+    color: #333;
+  }
+
+  .btn-imprimir:hover {
+    background: #f9a825;
+  }
+
+  .btn-accion {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    margin-right: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+  }
+
+  @media (max-width: 767px) {
+    nav .nav-links {
+      display: none;
+    }
+  }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar -->
+   <div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h3>Menú Principal</h3>
+  </div>
+  <ul class="sidebar-menu">
+    <li><a href="dahsboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></l
+    
+    <!-- Inventario -->
+    <li class="has-submenu">
+      <a href="#" class="submenu-toggle">
+        <i class="fas fa-boxes"></i> Inventario
+        <i class="fas fa-chevron-down chevron-icon"></i>
+      </a>
+      <ul class="submenu">
+        <li><a href="producto.html">Producto</a></li>
+        <li><a href="producto_terminado.html">Producto Terminado</a></li>
+        <li><a href="unidad_medida.html">Unidad de Medida</a></li>
+        <li><a href="movimiento.html">Movimiento</a></li>
+        <li><a href="detalle_movimiento.html">Detalle Movimiento</a></li>
+        <li><a href="proveedor.html">Proveedor</a></li>
+      </ul>
+    </li>
+
+    <!-- Ventas -->
+    <li class="has-submenu">
+      <a href="#" class="submenu-toggle">
+        <i class="fas fa-shopping-cart"></i> Ventas
+        <i class="fas fa-chevron-down chevron-icon"></i>
+      </a>
+      <ul class="submenu">
+        <li><a href="ventas.html">Ventas</a></li>
+        <li><a href="detalle_venta.html">Detalle Venta</a></li>
+        <li><a href="tipo_descuento.html">Tipo de Descuento</a></li>
+        <li><a href="forma_pago.html">Forma de Pago</a></li>
+        <li><a href="rol.html">Rol</a></li>
+      </ul>
+    </li>
+
+    <!-- Atención al Cliente -->
+    <li class="has-submenu">
+      <a href="#" class="submenu-toggle">
+        <i class="fas fa-headset"></i> Atención al Cliente
+        <i class="fas fa-chevron-down chevron-icon"></i>
+      </a>
+      <ul class="submenu">
+        <li><a href="promocion.html">Promoción</a></li>
+        <li><a href="usuario.html">Usuario</a></li>
+      </ul>
+    </li>
+
+    <!-- Pedidos -->
+    <li class="has-submenu">
+      <a href="#" class="submenu-toggle">
+        <i class="fas fa-users"></i> Pedidos
+        <i class="fas fa-chevron-down chevron-icon"></i>
+      </a>
+      <ul class="submenu">
+        <li><a href="pedido.html">Pedido</a></li>
+        <li><a href="cliente.html">Cliente</a></li>
+      </ul>
+    </li>
+
+    <!-- Configuración -->
+    <li><a href="confi.html"><i class="fas fa-cog"></i> Configuración</a></li>
+  </ul>
+</div>
+
+  <!-- Contenedor principal -->
+  <div class="content-wrapper">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="logo">
+        <i class="fas fa-hamburger"></i>
+        <span>WURGER</span>
+      </div>
+            <ul class="nav-links">
+    <li><a href="index.html#inicio">Inicio</a></li>
+    <li><a href="index.html#menu">Menú</a></li>
+     <li><a href="index.html#promos">Promos</a></li>
+    <li><a href="index.html#nosotros">Nosotros</a></li>
+    <li><a href="dahsboard.html">Dashboard</a></li>
+    <li><a href="login.html"><button class="btn-login">Iniciar Sesión</button></a></li>
+</ul>
+        
+      <div class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
+    </nav>
+
+    
+  <div class="content-wrapper">
+    <form id="unidadForm" class="formulario">
+      <label>Nombre:</label>
+      <input type="text" id="nombre_unidad" required>
+      <label>Cantidad:</label>
+      <input type="text" id="cantidad_unidad" required>
+      <label>ID Producto:</label>
+      <input type="text" id="producto_fk_unidad" required>
+      <button type="submit" class="btn">Registrar</button>
+    </form>
+
+    <table id="tablaUsuario">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Cantidad</th>
+          <th>ID Producto</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+<script>
+  // Sidebar toggle
+  document.querySelectorAll('.submenu-toggle').forEach(toggle => {
+    toggle.addEventListener('click', e => {
+      e.preventDefault();
+      toggle.parentElement.classList.toggle('active');
+    });
+  });
+
+  const formulario = document.getElementById('unidadForm');
+  const tabla = document.querySelector('#tablaUsuario tbody');
+
+  formulario.addEventListener('submit', e => {
+    e.preventDefault();
+    const unidad = {
+      nombre: document.getElementById('nombre_unidad').value.trim(),
+      cantidad: document.getElementById('cantidad_unidad').value.trim(),
+      producto_fk: document.getElementById('producto_fk_unidad').value.trim()
+    };
+    agregarFila(unidad);
+    formulario.reset();
+  });
+
+  function agregarFila(unidad) {
+    const fila = document.createElement('tr');
+    fila.innerHTML = `
+      <td>${unidad.nombre}</td>
+      <td>${unidad.cantidad}</td>
+      <td>${unidad.producto_fk}</td>
+      <td>
+        <button class="btn-accion btn-actualizar" onclick="actualizarFila(this)"><i class="fas fa-pen"></i></button>
+        <button class="btn-accion btn-eliminar" onclick="eliminarFila(this)"><i class="fas fa-trash"></i></button>
+        <button class="btn-accion btn-imprimir" onclick="imprimirFila(this)"><i class="fas fa-print"></i></button>
+      </td>
+    `;
+    tabla.appendChild(fila);
+  }
+
+  function eliminarFila(boton) {
+    if (confirm('¿Seguro que quieres eliminar esta unidad?')) {
+      boton.closest('tr').remove();
+    }
+  }
+
+  function actualizarFila(boton) {
+    const fila = boton.closest('tr');
+    const celdas = fila.querySelectorAll('td');
+    document.getElementById('nombre_unidad').value = celdas[0].innerText;
+    document.getElementById('cantidad_unidad').value = celdas[1].innerText;
+    document.getElementById('producto_fk_unidad').value = celdas[2].innerText;
+    fila.remove();
+  }
+
+  function imprimirFila(boton) {
+    const fila = boton.closest('tr');
+    const celdas = fila.querySelectorAll('td');
+    alert(
+      `Datos:\nNombre: ${celdas[0].innerText}\nCantidad: ${celdas[1].innerText}\nID Producto: ${celdas[2].innerText}`
+    );
+  }
+
+  // Hamburger toggle
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('active');
+  });
+</script>
+</body>
+</html>

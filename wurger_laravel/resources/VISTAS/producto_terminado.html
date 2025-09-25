@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WURGER - Dashboard</title>
+  <!-- Font Awesome para íconos -->
+   <link rel="stylesheet" href="../VISTAS/css/style.css">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Righteous&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+        /* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 1100;}
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f5f6fa;
+    }
+    /* ---------- FORMULARIO ---------- */
+.formulario {
+  background: #ffffff;
+  padding: 20px;
+  margin: 30px auto;
+  border-radius: 8px;
+  max-width: 800px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.formulario label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+.formulario input,
+.formulario textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+}
+
+.formulario textarea {
+  resize: vertical;
+}
+
+.formulario .btn {
+  display: inline-block;
+  background: #2196f3;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  margin-top: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.formulario .btn:hover {
+  background: #1976d2;
+}
+
+/* ---------- TABLA ---------- */
+#tablaProducto {
+  width: 95%;
+  margin: 30px auto;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+#tablaProducto thead {
+  background: #2196f3;
+  color: #fff;
+}
+
+#tablaProducto th,
+#tablaProducto td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#tablaProducto tbody tr:hover {
+  background: #f1f1f1;
+}
+
+/* ---------- BOTONES DE ACCIÓN ---------- */
+.btn-accion {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-right: 5px;
+  font-size: 13px;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-actualizar {
+  background: #2196f3;
+}
+.btn-actualizar:hover {
+  background: #1976d2;
+}
+
+.btn-eliminar {
+  background: #e53935;
+}
+.btn-eliminar:hover {
+  background: #c62828;
+}
+
+.btn-imprimir {
+  background: #43a047;
+}
+.btn-imprimir:hover {
+  background: #2e7d32;
+}
+
+/* ---------- RESPONSIVO ---------- */
+@media (max-width: 768px) {
+  .formulario {
+    margin: 20px;
+  }
+  #tablaProducto {
+    font-size: 12px;
+  }
+  #tablaProducto th,
+  #tablaProducto td {
+    padding: 8px;
+  }
+}
+
+
+    /* Sidebar base */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background: #2f3542;
+      color: #f1f1f1;
+      padding-top: 30px;
+      transition: left 0.3s ease;
+      z-index: 1000;
+      font-family: 'Righteous', sans-serif;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar-header {
+      padding: 1rem;
+      text-align: left;
+      font-size: 1.8rem;
+      color: #dcdcdc;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin-top: 30px;
+    }
+
+    .sidebar-menu li a {
+      color: #2196f3;
+      text-decoration: none;
+      display: block;
+      padding: 15px 20px;
+      font-size: 1rem;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .sidebar-menu li a:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #64b5f6;
+    }
+
+    /* Submenu */
+    .submenu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .has-submenu.active .submenu {
+      max-height: 500px;
+    }
+
+    .submenu li a {
+      color: #ddd;
+      text-decoration: none;
+      display: block;
+      padding: 10px 40px;
+      font-size: 0.95rem;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .submenu li a:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #64b5f6;
+    }
+
+    .has-submenu .chevron-icon {
+      float: right;
+      transition: transform 0.3s ease;
+    }
+
+    .has-submenu.active .chevron-icon {
+      transform: rotate(180deg);
+    }
+
+    @media (min-width: 768px) {
+      .sidebar {
+        left: 0;
+      }
+
+      .sidebar.active {
+        left: 0;
+      }
+
+      .content-wrapper {
+        margin-left: 250px;
+      }
+    }
+
+    .hamburger {
+      display: block;
+      cursor: pointer;
+      font-size: 1.4rem;
+    }
+
+    @media (min-width: 768px) {
+      .hamburger {
+        display: none;
+      }
+    }
+
+    body.sidebar-open::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 900;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar -->
+   <div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h3>Menú Principal</h3>
+  </div>
+  <ul class="sidebar-menu">
+    <li><a href="dahsboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+    
+    <!-- Inventario -->
+    <li class="has-submenu">
+      <a href="#" class="submenu-toggle">
+        <i class="fas fa-boxes"></i> Inventario
+        <i class="fas fa-chevron-down chevron-icon"></i>
+      </a>
+      <ul class="submenu">
+        <li><a href="producto.html">Producto</a></li>
+        <li><a href="producto_terminado.html">Producto Terminado</a></li>
+        <li><a href="unidad_medida.html">Unidad de Medida</a></li>
+        <li><a href="movimiento.html">Movimiento</a></li>
+        <li><a href="detalle_movimiento.html">Detalle Movimiento</a></li>
+        <li><a href="proveedor.html">Proveedor</a></li>
+      </ul>
+    </li>
+
+    <!-- Ventas -->
+    <li class="has-submenu">
+      <a href="#" class="submenu-toggle">
+        <i class="fas fa-shopping-cart"></i> Ventas
+        <i class="fas fa-chevron-down chevron-icon"></i>
+      </a>
+      <ul class="submenu">
+        <li><a href="ventas.html">Ventas</a></li>
+        <li><a href="detalle_venta.html">Detalle Venta</a></li>
+        <li><a href="tipo_descuento.html">Tipo de Descuento</a></li>
+        <li><a href="forma_pago.html">Forma de Pago</a></li>
+        <li><a href="rol.html">Rol</a></li>
+      </ul>
+    </li>
+
+    <!-- Atención al Cliente -->
+    <li class="has-submenu">
+      <a href="#" class="submenu-toggle">
+        <i class="fas fa-headset"></i> Atención al Cliente
+        <i class="fas fa-chevron-down chevron-icon"></i>
+      </a>
+      <ul class="submenu">
+        <li><a href="promocion.html">Promoción</a></li>
+        <li><a href="usuario.html">Usuario</a></li>
+      </ul>
+    </li>
+
+    <!-- Pedidos -->
+    <li class="has-submenu">
+      <a href="#" class="submenu-toggle">
+        <i class="fas fa-users"></i> Pedidos
+        <i class="fas fa-chevron-down chevron-icon"></i>
+      </a>
+      <ul class="submenu">
+        <li><a href="pedido.html">Pedido</a></li>
+        <li><a href="cliente.html">Cliente</a></li>
+      </ul>
+    </li>
+
+    <!-- Configuración -->
+    <li><a href="confi.html"><i class="fas fa-cog"></i> Configuración</a></li>
+  </ul>
+</div>
+
+  <!-- Contenedor principal -->
+  <div class="content-wrapper">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="logo">
+        <i class="fas fa-hamburger"></i>
+        <span>WURGER</span>
+      </div>
+            <ul class="nav-links">
+    <li><a href="index.html#inicio">Inicio</a></li>
+    <li><a href="index.html#menu">Menú</a></li>
+     <li><a href="index.html#promos">Promos</a></li>
+    <li><a href="index.html#nosotros">Nosotros</a></li>
+    <li><a href="dahsboard.html">Dashboard</a></li>
+    <li><a href="login.html"><button class="btn-login">Iniciar Sesión</button></a></li>
+</ul>
+        
+      <div class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
+    </nav>
+
+    
+    
+    <form id="productForm" class="formulario">
+      <label >Nombre del producto:</label>
+      <input type="text" id="nombre" name="nombre" required>
+
+      <label >Descripción:</label>
+      <textarea id="descripcion" name="descripcion" required></textarea>
+
+      <label >Categoría:</label>
+      <input type="text" id="categoria" name="categoria" required>
+
+      <label >Precio:</label>
+      <input type="number" id="precio" name="precio" required>
+
+      <label >Costo de producción:</label>
+      <input type="number" id="costo" name="costo" required>
+
+      <label >Stock actual:</label>
+      <input type="number" id="stock" name="stock" required>
+
+      <label >Unidad de medida:</label>
+      <input type="text" id="unidad" name="unidad" required>
+
+      <label >Estado:</label>
+      <select id="estado" name="estado" required>
+        <option value="">-- Selecciona un estado --</option>
+        <option value="Activo">Activo</option>
+        <option value="Inactivo">Inactivo</option>
+      </select>
+
+      <label >Fecha de creación:</label>
+      <input type="date" id="creacion" name="creacion" required>
+
+      <label >Fecha de actualización:</label>
+      <input type="date" id="actualizacion" name="actualizacion" required>
+
+      <label >ID venta (FK):</label>
+      <input type="number" id="venta" name="venta" required>
+
+      <label >ID producto base (FK):</label>
+      <input type="number" id="producto_fk" name="producto_fk" required>
+
+      <button type="submit" class="btn btn-registrar">Registrar Producto</button>
+    </form>
+    <table id="tablaProductoTerminado">
+  <thead>
+    <tr>
+      <th>Nombre del producto</th>
+      <th>Descripción</th>
+      <th>Categoría</th>
+      <th>Precio</th>
+      <th>Costo de producción</th>
+      <th>Stock actual</th>
+      <th>Unidad de medida</th>
+      <th>Estado</th>
+      <th>Fecha de creación</th>
+      <th>Fecha de actualización</th>
+      <th>ID venta (FK)</th>
+      <th>ID producto base (FK)</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+      <script>
+// Submenu toggle
+document.querySelectorAll('.submenu-toggle').forEach(function (toggle) {
+  toggle.addEventListener('click', function (e) {
+    e.preventDefault();
+    const parentLi = this.parentElement;
+    parentLi.classList.toggle('active');
+  });
+});
+
+// FORMULARIO Y TABLA
+const formulario = document.getElementById('productForm');
+const tabla = document.getElementById('tablaProductoTerminado').querySelector('tbody');
+
+formulario.addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const producto = {
+    nombre: document.getElementById('nombre').value,
+    descripcion: document.getElementById('descripcion').value,
+    categoria: document.getElementById('categoria').value,
+    precio: document.getElementById('precio').value,
+    costo: document.getElementById('costo').value,
+    stock: document.getElementById('stock').value,
+    unidad: document.getElementById('unidad').value,
+    estado: document.getElementById('estado').value,
+    creacion: document.getElementById('creacion').value,
+    actualizacion: document.getElementById('actualizacion').value,
+    venta: document.getElementById('venta').value,
+    producto_fk: document.getElementById('producto_fk').value
+  };
+
+  agregarFila(producto);
+  formulario.reset();
+});
+
+function agregarFila(producto) {
+  const fila = document.createElement('tr');
+  fila.innerHTML = `
+    <td>${producto.nombre}</td>
+    <td>${producto.descripcion}</td>
+    <td>${producto.categoria}</td>
+    <td>${producto.precio}</td>
+    <td>${producto.costo}</td>
+    <td>${producto.stock}</td>
+    <td>${producto.unidad}</td>
+    <td>${producto.estado}</td>
+    <td>${producto.creacion}</td>
+    <td>${producto.actualizacion}</td>
+    <td>${producto.venta}</td>
+    <td>${producto.producto_fk}</td>
+    <td>
+      <button class="btn btn-actualizar btn-accion" onclick="actualizarFila(this)">Actualizar</button>
+      <button class="btn btn-eliminar btn-accion" onclick="eliminarFila(this)">Eliminar</button>
+      <button class="btn btn-imprimir btn-accion" onclick="imprimirFila(this)">Imprimir</button>
+    </td>
+  `;
+  tabla.appendChild(fila);
+}
+
+// Botones
+function eliminarFila(boton) {
+  if (confirm('¿Estás seguro de eliminar este producto?')) {
+    const fila = boton.closest('tr');
+    fila.remove();
+  }
+}
+
+function actualizarFila(boton) {
+  const fila = boton.closest('tr');
+  const celdas = fila.querySelectorAll('td');
+  const valores = Array.from(celdas).slice(0, 12).map(td => td.innerText);
+
+  document.getElementById('nombre').value = valores[0];
+  document.getElementById('descripcion').value = valores[1];
+  document.getElementById('categoria').value = valores[2];
+  document.getElementById('precio').value = valores[3];
+  document.getElementById('costo').value = valores[4];
+  document.getElementById('stock').value = valores[5];
+  document.getElementById('unidad').value = valores[6];
+  document.getElementById('estado').value = valores[7];
+  document.getElementById('creacion').value = valores[8];
+  document.getElementById('actualizacion').value = valores[9];
+  document.getElementById('venta').value = valores[10];
+  document.getElementById('producto_fk').value = valores[11];
+
+  fila.remove();
+}
+
+function imprimirFila(boton) {
+  const fila = boton.closest('tr');
+  const celdas = fila.querySelectorAll('td');
+  let contenido = '';
+  for (let i = 0; i < 12; i++) {
+    contenido += `${celdas[i].innerText}\n`;
+  }
+  alert("Datos del producto:\n" + contenido);
+}
+</script>
+
+</script>
+
+
+  </body>
+</html>

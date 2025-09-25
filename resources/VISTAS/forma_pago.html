@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WURGER - Detalle Venta</title>
+  <!-- Font Awesome para íconos -->
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Righteous&display=swap"
+    rel="stylesheet" />
+  <style>
+        /* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 1100;}
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f5f6fa;
+    }
+    /* FORMULARIO */
+.formulario {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.formulario label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.formulario input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.formulario input:focus {
+  border-color: #2196f3;
+  outline: none;
+}
+
+/* BOTÓN PRINCIPAL */
+.btn-registrar {
+  background-color: #2196f3;
+  color: white;
+  padding: 0.7rem 1.6rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-registrar:hover {
+  background-color: #1e88e5;
+  transform: translateY(-2px);
+}
+
+/* TABLA */
+#tablaFormaPago {
+  width: 95%;
+  border-collapse: collapse;
+  margin: 2rem auto;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#tablaFormaPago thead {
+  background-color: #2196f3;
+  color: white;
+}
+
+#tablaFormaPago th,
+#tablaFormaPago td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+#tablaFormaPago tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* BOTONES DE ACCIÓN */
+#tablaFormaPago .btn {
+  display: inline-block;
+  background-color: #2196f3;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-right: 0.4rem;
+}
+
+#tablaFormaPago .btn:hover {
+  background-color: #1e88e5;
+  transform: translateY(-2px);
+}
+    
+    /* Sidebar base */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background: #2f3542;
+      color: #f1f1f1;
+      padding-top: 30px;
+      transition: left 0.3s ease;
+      z-index: 1000;
+      font-family: 'Righteous', sans-serif;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar-header {
+      padding: 1rem;
+      text-align: left;
+      font-size: 1.8rem;
+      color: #dcdcdc;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin-top: 30px;
+    }
+
+    .sidebar-menu li a {
+      color: #2196f3;
+      text-decoration: none;
+      display: block;
+      padding: 15px 20px;
+      font-size: 1rem;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .sidebar-menu li a:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #64b5f6;
+    }
+
+    /* Submenu */
+    .submenu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .has-submenu.active .submenu {
+      max-height: 500px;
+    }
+
+    .submenu li a {
+      color: #ddd;
+      text-decoration: none;
+      display: block;
+      padding: 10px 40px;
+      font-size: 0.95rem;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .submenu li a:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #64b5f6;
+    }
+
+    .has-submenu .chevron-icon {
+      float: right;
+      transition: transform 0.3s ease;
+    }
+
+    .has-submenu.active .chevron-icon {
+      transform: rotate(180deg);
+    }
+
+    @media (min-width: 768px) {
+      .sidebar {
+        left: 0;
+      }
+
+      .sidebar.active {
+        left: 0;
+      }
+
+      .content-wrapper {
+        margin-left: 250px;
+      }
+    }
+
+    .hamburger {
+      display: block;
+      cursor: pointer;
+      font-size: 1.4rem;
+    }
+
+    @media (min-width: 768px) {
+      .hamburger {
+        display: none;
+      }
+    }
+
+    body.sidebar-open::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 900;
+    }
+  </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+   <div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h3>Menú Principal</h3>
+  </div>
+  <ul class="sidebar-menu">
+    <li><a href="dahsboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+    
+    <!-- Inventario -->
+    <li class="has-submenu">
+      <a href="#" class="submenu-toggle">
+        <i class="fas fa-boxes"></i> Inventario
+        <i class="fas fa-chevron-down chevron-icon"></i>
+      </a>
+      <ul class="submenu">
+        <li><a href="producto.html">Producto</a></li>
+        <li><a href="producto_terminado.html">Producto Terminado</a></li>
+        <li><a href="unidad_medida.html">Unidad de Medida</a></li>
+        <li><a href="movimiento.html">Movimiento</a></li>
+        <li><a href="detalle_movimiento.html">Detalle Movimiento</a></li>
+        <li><a href="proveedor.html">Proveedor</a></li>
+      </ul>
+    </li>
+
+    <!-- Ventas -->
+    <li class="has-submenu">
+      <a href="#" class="submenu-toggle">
+        <i class="fas fa-shopping-cart"></i> Ventas
+        <i class="fas fa-chevron-down chevron-icon"></i>
+      </a>
+      <ul class="submenu">
+  <li><a href="ventas.html">Ventas</a></li>
+  <li><a href="detalle_venta.html">Detalle Venta</a></li>
+  <li><a href="tipo_descuento.html">Tipo de Descuento</a></li>
+  <li><a href="forma_pago.html">Forma de Pago</a></li>
+  <li><a href="rol.html">Rol</a></li>
+</ul>
+        
+    </li>
+
+    <!-- Atención al Cliente -->
+    <li class="has-submenu">
+      <a href="#" class="submenu-toggle">
+        <i class="fas fa-headset"></i> Atención al Cliente
+        <i class="fas fa-chevron-down chevron-icon"></i>
+      </a>
+      <ul class="submenu">
+        <li><a href="promocion.html">Promoción</a></li>
+        <li><a href="usuario.html">Usuario</a></li>
+      </ul>
+    </li>
+
+    <!-- Pedidos -->
+    <li class="has-submenu">
+      <a href="#" class="submenu-toggle">
+        <i class="fas fa-users"></i> Pedidos
+        <i class="fas fa-chevron-down chevron-icon"></i>
+      </a>
+      <ul class="submenu">
+        <li><a href="pedido.html">Pedido</a></li>
+        <li><a href="cliente.html">Cliente</a></li>
+      </ul>
+    </li>
+
+    <!-- Configuración -->
+    <li><a href="confi.html"><i class="fas fa-cog"></i> Configuración</a></li>
+  </ul>
+</div>
+
+  <!-- Contenedor principal -->
+  <div class="content-wrapper">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="logo">
+        <i class="fas fa-hamburger"></i>
+        <span>WURGER</span>
+      </div>
+            <ul class="nav-links">
+    <li><a href="index.html#inicio">Inicio</a></li>
+    <li><a href="index.html#menu">Menú</a></li>
+     <li><a href="index.html#promos">Promos</a></li>
+    <li><a href="index.html#nosotros">Nosotros</a></li>
+    <li><a href="dahsboard.html">Dashboard</a></li>
+    <li><a href="login.html"><button class="btn-login">Iniciar Sesión</button></a></li>
+</ul>
+      <div class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
+    </nav>
+
+
+
+  <form id="formaPagoForm" class="formulario">
+    <label>Nombre forma de pago:</label>
+    <input type="text" id="nombre_fp" name="nombre_fp" required>
+
+    <label>ID Venta (FK):</label>
+    <input type="number" id="venta_fk_fp" name="venta_fk_fp" required>
+
+    <button type="submit" class="btn btn-registrar">Registrar Forma de Pago</button>
+  </form>
+
+  <table id="tablaFormaPago">
+    <thead>
+      <tr>
+        <th>Nombre forma de pago</th>
+        <th>ID Venta (FK)</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+          // Submenu toggle
+  document.querySelectorAll('.submenu-toggle').forEach(function (toggle) {
+    toggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      const parentLi = this.parentElement;
+      parentLi.classList.toggle('active');
+    });
+  });
+    const formulario = document.getElementById('formaPagoForm');
+    const tabla = document.getElementById('tablaFormaPago').querySelector('tbody');
+
+    formulario.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const formaPago = {
+        nombre: document.getElementById('nombre_fp').value,
+        ventaFK: document.getElementById('venta_fk_fp').value
+      };
+
+      agregarFila(formaPago);
+      formulario.reset();
+    });
+
+    function agregarFila(formaPago) {
+      const fila = document.createElement('tr');
+      fila.innerHTML = `
+    <td>${formaPago.nombre}</td>
+    <td>${formaPago.ventaFK}</td>
+    <td>
+      <button class="btn btn-actualizar" onclick="actualizarFila(this)">Actualizar</button>
+      <button class="btn btn-eliminar" onclick="eliminarFila(this)">Eliminar</button>
+      <button class="btn btn-imprimir" onclick="imprimirFila(this)">Imprimir</button>
+    </td>
+  `;
+      tabla.appendChild(fila);
+    }
+
+    function eliminarFila(boton) {
+      if (confirm('¿Estás seguro de eliminar esta forma de pago?')) {
+        const fila = boton.closest('tr');
+        fila.remove();
+      }
+    }
+
+    function actualizarFila(boton) {
+      const fila = boton.closest('tr');
+      const celdas = fila.querySelectorAll('td');
+      const valores = Array.from(celdas).slice(0, 2).map(td => td.innerText);
+
+      document.getElementById('nombre_fp').value = valores[0];
+      document.getElementById('venta_fk_fp').value = valores[1];
+
+      fila.remove();
+    }
+
+    function imprimirFila(boton) {
+      const fila = boton.closest('tr');
+      const celdas = fila.querySelectorAll('td');
+      let contenido = '';
+      contenido += `Nombre forma de pago: ${celdas[0].innerText}\n`;
+      contenido += `ID Venta (FK): ${celdas[1].innerText}`;
+      alert("Datos de la forma de pago:\n" + contenido);
+    }
+  </script>
+</body>
+
+</html>

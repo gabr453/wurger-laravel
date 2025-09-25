@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WURGER - Dashboard</title>
+  <!-- Font Awesome para íconos -->
+  <link rel="stylesheet" href="../VISTAS/css/style.css">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <!-- Google Fonts corregido -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f5f6fa;
+    }
+    /* ---------- FORMULARIO ---------- */
+    .formulario {
+      background: #ffffff;
+      padding: 20px;
+      margin: 30px auto;
+      border-radius: 8px;
+      max-width: 800px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .formulario label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #333;
+    }
+    .formulario input,
+    .formulario textarea,
+    .formulario select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+    }
+    .formulario textarea {
+      resize: vertical;
+    }
+    .formulario .btn {
+      display: inline-block;
+      background: #2196f3;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      margin-top: 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+    .formulario .btn:hover {
+      background: #1976d2;
+    }
+    /* ---------- TABLA ---------- */
+    #tablaMovimiento {
+      width: 95%;
+      margin: 30px auto;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    #tablaMovimiento thead {
+      background: #2196f3;
+      color: #fff;
+    }
+    #tablaMovimiento th,
+    #tablaMovimiento td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    #tablaMovimiento tbody tr:hover {
+      background: #f1f1f1;
+    }
+    /* ---------- BOTONES DE ACCIÓN ---------- */
+    .btn-accion {
+      display: inline-block;
+      padding: 6px 12px;
+      margin-right: 5px;
+      font-size: 13px;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .btn-actualizar { background: #2196f3; }
+    .btn-actualizar:hover { background: #1976d2; }
+    .btn-eliminar { background: #e53935; }
+    .btn-eliminar:hover { background: #c62828; }
+    .btn-imprimir { background: #43a047; }
+    .btn-imprimir:hover { background: #2e7d32; }
+    /* ---------- RESPONSIVO ---------- */
+    @media (max-width: 768px) {
+      .formulario { margin: 20px; }
+      #tablaMovimiento { font-size: 12px; }
+      #tablaMovimiento th, #tablaMovimiento td { padding: 8px; }
+    }
+    /* Sidebar base */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background: #2f3542;
+      color: #f1f1f1;
+      padding-top: 30px;
+      transition: left 0.3s ease;
+      z-index: 1000;
+      font-family: 'Righteous', sans-serif;
+    }
+    .sidebar.active { left: 0; }
+    .sidebar-header {
+      padding: 1rem;
+      text-align: left;
+      font-size: 1.8rem;
+      color: #dcdcdc;
+    }
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin-top: 30px;
+    }
+    .sidebar-menu li a {
+      color: #2196f3;
+      text-decoration: none;
+      display: block;
+      padding: 15px 20px;
+      font-size: 1rem;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    .sidebar-menu li a:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #64b5f6;
+    }
+    .submenu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .has-submenu.active .submenu {
+      max-height: 500px;
+    }
+    .submenu li a {
+      color: #ddd;
+      text-decoration: none;
+      display: block;
+      padding: 10px 40px;
+      font-size: 0.95rem;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    .submenu li a:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #64b5f6;
+    }
+    .has-submenu .chevron-icon {
+      float: right;
+      transition: transform 0.3s ease;
+    }
+    .has-submenu.active .chevron-icon {
+      transform: rotate(180deg);
+    }
+    @media (min-width: 768px) {
+      .sidebar { left: 0; }
+      .content-wrapper { margin-left: 250px; }
+      .hamburger { display: none; }
+    }
+    .hamburger {
+      display: block;
+      cursor: pointer;
+      font-size: 1.4rem;
+    }
+    body.sidebar-open::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 900;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3>Menú Principal</h3>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+      <li class="has-submenu">
+        <a href="#" class="submenu-toggle"><i class="fas fa-boxes"></i> Inventario <i class="fas fa-chevron-down chevron-icon"></i></a>
+        <ul class="submenu">
+          <li><a href="producto.html">Producto</a></li>
+          <li><a href="producto_terminado.html">Producto Terminado</a></li>
+          <li><a href="unidad_medida.html">Unidad de Medida</a></li>
+          <li><a href="movimiento.html">Movimiento</a></li>
+          <li><a href="detalle_movimiento.html">Detalle Movimiento</a></li>
+          <li><a href="proveedor.html">Proveedor</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <a href="#" class="submenu-toggle"><i class="fas fa-shopping-cart"></i> Ventas <i class="fas fa-chevron-down chevron-icon"></i></a>
+        <ul class="submenu">
+          <li><a href="ventas.html">Ventas</a></li>
+          <li><a href="detalle_venta.html">Detalle Venta</a></li>
+          <li><a href="tipo_descuento.html">Tipo de Descuento</a></li>
+          <li><a href="forma_pago.html">Forma de Pago</a></li>
+          <li><a href="rol.html">Rol</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <a href="#" class="submenu-toggle"><i class="fas fa-headset"></i> Atención al Cliente <i class="fas fa-chevron-down chevron-icon"></i></a>
+        <ul class="submenu">
+          <li><a href="promocion.html">Promoción</a></li>
+          <li><a href="usuario.html">Usuario</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <a href="#" class="submenu-toggle"><i class="fas fa-users"></i> Pedidos <i class="fas fa-chevron-down chevron-icon"></i></a>
+        <ul class="submenu">
+          <li><a href="pedido.html">Pedido</a></li>
+          <li><a href="cliente.html">Cliente</a></li>
+        </ul>
+      </li>
+      <li><a href="confi.html"><i class="fas fa-cog"></i> Configuración</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrapper">
+    <nav class="navbar">
+      <div class="logo">
+        <i class="fas fa-hamburger"></i>
+        <span>WURGER</span>
+      </div>
+            <ul class="nav-links">
+    <li><a href="index.html#inicio">Inicio</a></li>
+    <li><a href="index.html#menu">Menú</a></li>
+     <li><a href="index.html#promos">Promos</a></li>
+    <li><a href="index.html#nosotros">Nosotros</a></li>
+    <li><a href="dahsboard.html">Dashboard</a></li>
+    <li><a href="login.html"><button class="btn-login">Iniciar Sesión</button></a></li>
+</ul>
+        
+      <div class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
+    </nav>
+
+    <form id="movimientoForm" class="formulario">
+      <label>Tipo de movimiento:</label>
+      <select id="tipo" name="tipo" required>
+        <option value="">-- Selecciona un tipo --</option>
+        <option value="Entrada">Entrada</option>
+        <option value="Salida">Salida</option>
+      </select>
+      <label>Cantidad:</label>
+      <input type="number" id="cantidad" name="cantidad" required>
+      <label>Fecha del movimiento:</label>
+      <input type="date" id="fecha" name="fecha" required>
+      <label>Descripción:</label>
+      <textarea id="descripcion" name="descripcion" required></textarea>
+      <label>ID del producto (FK):</label>
+      <input type="number" id="producto_fk" name="producto_fk" required>
+      <button type="submit" class="btn btn-registrar">Registrar Movimiento</button>
+    </form>
+
+    <table id="tablaMovimiento">
+      <thead>
+        <tr>
+          <th>Tipo de movimiento</th>
+          <th>Cantidad</th>
+          <th>Fecha del movimiento</th>
+          <th>Descripción</th>
+          <th>ID del producto (FK)</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+// Submenu toggle
+document.querySelectorAll('.submenu-toggle').forEach(function (toggle) {
+  toggle.addEventListener('click', function (e) {
+    e.preventDefault();
+    const parentLi = this.parentElement;
+    parentLi.classList.toggle('active');
+  });
+});
+
+const formulario = document.getElementById('movimientoForm');
+const tabla = document.getElementById('tablaMovimiento').querySelector('tbody');
+
+formulario.addEventListener('submit', function (e) {
+  e.preventDefault();
+  const movimiento = {
+    tipo: document.getElementById('tipo').value,
+    cantidad: document.getElementById('cantidad').value,
+    fecha: document.getElementById('fecha').value,
+    descripcion: document.getElementById('descripcion').value.trim(),
+    producto_fk: document.getElementById('producto_fk').value
+  };
+  agregarFila(movimiento);
+  formulario.reset();
+});
+
+function agregarFila(movimiento) {
+  const fila = document.createElement('tr');
+  fila.innerHTML = `
+    <td>${movimiento.tipo}</td>
+    <td>${movimiento.cantidad}</td>
+    <td>${movimiento.fecha}</td>
+    <td>${movimiento.descripcion}</td>
+    <td>${movimiento.producto_fk}</td>
+    <td>
+      <button class="btn btn-actualizar" onclick="actualizarFila(this)">Actualizar</button>
+      <button class="btn btn-eliminar" onclick="eliminarFila(this)">Eliminar</button>
+      <button class="btn btn-imprimir" onclick="imprimirFila(this)">Imprimir</button>
+    </td>`;
+  tabla.appendChild(fila);
+}
+
+function eliminarFila(boton) {
+  if (confirm('¿Estás seguro de eliminar este movimiento?')) {
+    const fila = boton.closest('tr');
+    fila.remove();
+  }
+}
+
+function actualizarFila(boton) {
+  const fila = boton.closest('tr');
+  const celdas = fila.querySelectorAll('td');
+  const valores = Array.from(celdas).slice(0,5).map(td => td.innerText);
+  document.getElementById('tipo').value = valores[0];
+  document.getElementById('cantidad').value = valores[1];
+  document.getElementById('fecha').value = valores[2];
+  document.getElementById('descripcion').value = valores[3];
+  document.getElementById('producto_fk').value = valores[4];
+  fila.remove();
+}
+
+function imprimirFila(boton) {
+  const fila = boton.closest('tr');
+  const celdas = fila.querySelectorAll('td');
+  let contenido = '';
+  contenido += `Tipo de movimiento: ${celdas[0].innerText}\n`;
+  contenido += `Cantidad: ${celdas[1].innerText}\n`;
+  contenido += `Fecha: ${celdas[2].innerText}\n`;
+  contenido += `Descripción: ${celdas[3].innerText}\n`;
+  contenido += `ID Producto (FK): ${celdas[4].innerText}`;
+  alert("Datos del movimiento:\n" + contenido);
+}
+  </script>
+</body>
+</html>
