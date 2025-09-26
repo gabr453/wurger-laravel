@@ -16,10 +16,9 @@ class UsuarioController extends Controller
     }
 
     // Mostrar formulario de creación
-    public function create()
-    {
-        return view('usuario.create');
-    }
+   public function create() {
+    return view('usuario.create')->with('usuario', null);
+}
 
     // Guardar nuevo usuario
     public function store(Request $request)

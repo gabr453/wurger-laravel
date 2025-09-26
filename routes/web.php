@@ -30,8 +30,6 @@ Route::get('/dashboard', function () {
 
 
 Route::resource('categoria_producto', CategoriaProductoController::class);
-
-
 Route::resource('usuario', UsuarioController::class);
 Route::resource('producto', ProductoController::class);
 Route::resource('producto_terminado', ProductoTerminadoController::class);
