@@ -16,8 +16,13 @@ use App\Http\Controllers\PromocionController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\TipoDescuentoController;
+use App\Http\Controllers\Auth\LoginController;
 
 
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,6 +32,28 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::get('/dashboard_cliente', function () {
+    return view('dashboard_cliente');
+});
+
+Route::get('/promociones', function () {
+    return view('promociones');
+});
+
+Route::get('/productos', function () {
+    return view('productos');
+});
+
+
+// Rutas protegidas por rol
+Route::get('/dashboard', function () {
+   return view('dashboard');
+})->name('dashboard');
+
+Route::get('/dashboard_cliente', function () {
+    return view('dashboard_cliente');
+})->name('dashboard_cliente');
 
 
 Route::resource('categoria_producto', CategoriaProductoController::class);
