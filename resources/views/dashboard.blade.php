@@ -103,11 +103,9 @@
         <span>WURGER</span>
       </div>
       <ul class="nav-links">
-        <li><a href="{{ url('/') }}#inicio">Inicio</a></li>
-        <li><a href="{{ url('/') }}#menu">Menú</a></li>
-        <li><a href="{{ url('/') }}#promos">Promos</a></li>
-        <li><a href="{{ url('/') }}#nosotros">Nosotros</a></li>
-        <li><a href="{{ url('dashboard') }}">Dashboard</a></li>
+               
+
+        <li><a href="{{ url('inicio') }}">Inicio</a></li>
         <li><a href="{{ url('login') }}"><button class="btn-login">Iniciar Sesión</button></a></li>
       </ul>
       <div class="hamburger" id="hamburger">

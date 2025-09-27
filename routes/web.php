@@ -17,6 +17,11 @@ use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\TipoDescuentoController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register'])->name('register.post');
+
 
 
 
@@ -27,6 +32,10 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/inicio', function () {
+    return view('inicio');
+})->name('inicio');
 
 
 Route::get('/dashboard', function () {
