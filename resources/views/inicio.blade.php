@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WURGER - Las mejores hamburguesas</title>
-<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+<link rel="stylesheet" href="{{ asset('css/style_inicio.css') }}">
     <!-- Font Awesome para íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -19,12 +19,10 @@
         </div>
         
         <ul class="nav-links">
-            <li><a href="#inicio">Inicio</a></li>
             <li><a href="#menu">Menú</a></li>
              <li><a href="#promociones">Promos</a></li>
             <li><a href="#nosotros">Nosotros</a></li>
-            <li><a href="dahsboard.html">Dashboard</a></li>
-            <li><a href="login.html"><button class="btn-login">Iniciar Sesión</button></a></li>
+            <li><a href="{{ url('login') }}"><button class="btn-login">Iniciar Sesión</button></a></li>
         </ul>
         
         <div class="hamburger">

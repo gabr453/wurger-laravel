@@ -3,11 +3,24 @@
 @section('title', 'Productos')
 
 @section('content')
-<h1>Lista de Productos</h1>
+<h1 class="section-title">Lista de Productos</h1>
 
-<a href="{{ route('producto.create') }}" class="btn btn-success">Nuevo Producto</a>
+<!-- ALERTAS -->
+@if(session('success'))
+    <div class="alert alert-success" style="padding:10px; margin-bottom:15px; background-color:#d4edda; color:#155724; border-radius:5px;">
+        {{ session('success') }}
+    </div>
+@endif
 
-<table border="1" cellpadding="8" cellspacing="0">
+@if(session('error'))
+    <div class="alert alert-danger" style="padding:10px; margin-bottom:15px; background-color:#f8d7da; color:#721c24; border-radius:5px;">
+        {{ session('error') }}
+    </div>
+@endif
+
+<a href="{{ route('producto.create') }}" class="btn btn-success">➕ Nuevo Producto</a>
+
+<table class="styled-table">
     <thead>
         <tr>
             <th>ID</th>
@@ -33,13 +46,16 @@
             <td>{{ $producto->Estado_producto }}</td>
             <td>{{ $producto->categoria->Nombre_categoria ?? 'Sin categoría' }}</td>
             <td>
-                <a href="{{ route('producto.edit', $producto->id_producto) }}" class="btn btn-primary">Editar</a>
+                <a href="{{ route('producto.edit', $producto->id_producto) }}" class="btn btn-edit">✏️ Editar</a>
 
                 <!-- Botón Eliminar -->
-                <form action="{{ route('producto.destroy', $producto->id_producto) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Estás seguro de eliminar este producto?');">
+                <form action="{{ route('producto.destroy', $producto->id_producto) }}" 
+                      method="POST" 
+                      class="form-inline"
+                      onsubmit="return confirm('¿Estás seguro de eliminar este producto?');">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn-delete">Eliminar</button>
+                    <button type="submit" class="btn btn-delete">🗑️ Eliminar</button>
                 </form>
             </td>
         </tr>

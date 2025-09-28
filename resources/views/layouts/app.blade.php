@@ -42,7 +42,7 @@
           <li><a href="{{ url('movimiento') }}">Movimiento</a></li>
           <li><a href="{{ url('detalle_movimiento') }}">Detalle Movimiento</a></li>
           <li><a href="{{ url('proveedor') }}">Proveedor</a></li>
-           <li><a href="{{ url('categoria_producto') }}">Categoria Producto</a></li>
+          <li><a href="{{ url('categoria_producto') }}">Categoria Producto</a></li>
         </ul>
       </li>
 
@@ -87,6 +87,9 @@
 
       {{-- Configuración --}}
       <li><a href="{{ url('confi') }}"><i class="fas fa-cog"></i> Configuración</a></li>
+
+      {{-- Reportes --}}
+      <li><a href="{{ route('reportes.index') }}"><i class="fas fa-file-pdf"></i> Reportes</a></li>
     </ul>
   </div>
 

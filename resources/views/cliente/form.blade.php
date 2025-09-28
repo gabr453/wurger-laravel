@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Validación en vivo
     form.querySelectorAll('input').forEach(input => {
         input.addEventListener('input', () => validateField(input));
-        input.addEventListener('blur', () => validateField(input));
+        input.addEventListener('blur', () => validateField(input)); 2q  |
     });
 
     // Validación al enviar

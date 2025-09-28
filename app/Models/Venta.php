@@ -21,4 +21,10 @@ class Venta extends Model
     {
         return $this->belongsTo(Usuario::class, 'id_usuario_FK');
     }
+
+    // Relación con DetalleVenta
+    public function detalleVenta()
+    {
+        return $this->hasMany(DetalleVenta::class, 'id_venta_FK');
+    }
 }

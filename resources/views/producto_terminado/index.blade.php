@@ -3,11 +3,11 @@
 @section('title', 'Productos Terminados')
 
 @section('content')
-<h1>Lista de Productos Terminados</h1>
+<h1 class="section-title">Lista de Productos Terminados</h1>
 
-<a href="{{ route('producto_terminado.create') }}" class="btn btn-success">Nuevo Producto Terminado</a>
+<a href="{{ route('producto_terminado.create') }}" class="btn btn-success">➕ Nuevo Producto Terminado</a>
 
-<table border="1" cellpadding="8" cellspacing="0">
+<table class="styled-table">
     <thead>
         <tr>
             <th>ID</th>
@@ -37,11 +37,14 @@
             <td>{{ $pt->Estado_producto_terminado }}</td>
             <td>{{ $pt->producto->Nombre_producto ?? 'Sin producto base' }}</td>
             <td>
-                <a href="{{ route('producto_terminado.edit', $pt->id_producto_terminado) }}" class="btn btn-primary">Editar</a>
-                <form action="{{ route('producto_terminado.destroy', $pt->id_producto_terminado) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Seguro de eliminar este producto terminado?');">
+                <a href="{{ route('producto_terminado.edit', $pt->id_producto_terminado) }}" class="btn btn-edit">✏️ Editar</a>
+                <form action="{{ route('producto_terminado.destroy', $pt->id_producto_terminado) }}" 
+                      method="POST" 
+                      class="form-inline"
+                      onsubmit="return confirm('¿Seguro de eliminar este producto terminado?');">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn-delete">Eliminar</button>
+                    <button type="submit" class="btn btn-delete">🗑️ Eliminar</button>
                 </form>
             </td>
         </tr>

@@ -80,3 +80,16 @@ Route::resource('forma_pago', FormaPagoController::class);
 Route::resource('tipo_descuento', controller: TipoDescuentoController::class);
 Route::resource('proveedor', ProveedorController::class);
 Route::resource('promocion', PromocionController::class);
+
+Route::get('/reportes/pdf', [App\Http\Controllers\ReporteController::class, 'generarPDF'])->name('reportes.generarPDF');
+
+use App\Http\Controllers\ReporteController;
+
+
+
+Route::get('/reportes', [ReporteController::class, 'index'])->name('reportes.index');
+Route::get('/reportes/detalle-venta', [ReporteController::class, 'detalleVentaPDF'])->name('reportes.detalleVenta');
+Route::get('/reportes/ventas', [ReporteController::class, 'ventasPDF'])->name('reportes.ventas');
+Route::get('/reportes/productos', [ReporteController::class, 'productosPDF'])->name('reportes.productos');
+Route::get('/reportes/clientes', [ReporteController::class, 'clientesPDF'])->name('reportes.clientes');
+Route::get('/reportes/promociones', [ReporteController::class, 'promocionesPDF'])->name('reportes.promociones');

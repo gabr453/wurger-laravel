@@ -67,11 +67,25 @@ class ProductoController extends Controller
         return redirect()->route('producto.index')->with('success', 'Producto actualizado correctamente.');
     }
 
-    public function destroy($id)
-    {
+   public function destroy($id)
+{
+    try {
         $producto = Producto::findOrFail($id);
         $producto->delete();
 
-        return redirect()->route('producto.index')->with('success', 'Producto eliminado correctamente.');
+        return redirect()->route('producto.index')
+            ->with('success', 'Producto eliminado correctamente.');
+    } catch (\Illuminate\Database\QueryException $e) {
+        // Código del error de restricción de clave foránea
+        if ($e->getCode() == "23000") {
+            return redirect()->route('producto.index')
+                ->with('error', 'No se puede eliminar el producto porque está relacionado con otros registros.');
+        }
+
+        // Otro error
+        return redirect()->route('producto.index')
+            ->with('error', 'Ocurrió un error al intentar eliminar el producto.');
     }
+}
+
 }
