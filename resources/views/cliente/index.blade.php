@@ -5,6 +5,14 @@
 @section('content')
 <h1 class="section-title">Lista de Clientes</h1>
 
+@if (session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
+
 <a href="{{ route('cliente.create') }}" class="btn btn-success">➕ Nuevo Cliente</a>
 
 <table class="styled-table">

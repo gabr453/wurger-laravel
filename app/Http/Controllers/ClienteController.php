@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException; // Importante para capturar errores SQL
 
 class ClienteController extends Controller
 {
@@ -53,9 +54,19 @@ class ClienteController extends Controller
 
     public function destroy($id)
     {
-        $cliente = Cliente::findOrFail($id);
-        $cliente->delete();
+        try {
+            $cliente = Cliente::findOrFail($id);
+            $cliente->delete();
 
-        return redirect()->route('cliente.index')->with('success', 'Cliente eliminado correctamente.');
+            return redirect()->route('cliente.index')->with('success', 'Cliente eliminado correctamente.');
+        } catch (QueryException $e) {
+            if ($e->errorInfo[1] == 1451) {
+                // Código MySQL 1451 = restricción de clave foránea
+                return redirect()->route('cliente.index')
+                                 ->with('error', 'No se puede eliminar este cliente porque está asociado a otros registros.');
+            }
+            return redirect()->route('cliente.index')
+                             ->with('error', 'Error al eliminar el cliente.');
+        }
     }
 }

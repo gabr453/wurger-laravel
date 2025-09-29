@@ -90,7 +90,7 @@
       </li>
 
       {{-- Configuración --}}
-      <li><a href="{{ url('confi') }}"><i class="fas fa-cog"></i> Configuración</a></li>
+      <li><a href="{{ url('reportes') }}"><i class="fas fa-file-pdf"></i> Reportes</a></li>
     </ul>
   </div>
 
@@ -106,7 +106,7 @@
                
 
         <li><a href="{{ url('inicio') }}">Inicio</a></li>
-        <li><a href="{{ url('login') }}"><button class="btn-login">Iniciar Sesión</button></a></li>
+        <li><a href="{{ url('login') }}"><button class="btn-login">Cerrar Sesión</button></a></li>
       </ul>
       <div class="hamburger" id="hamburger">
         <i class="fas fa-bars"></i>

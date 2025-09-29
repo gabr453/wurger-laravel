@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoriaProducto;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException; // Para capturar errores SQL
 
 class CategoriaProductoController extends Controller
 {
@@ -50,9 +51,18 @@ class CategoriaProductoController extends Controller
 
     public function destroy($id)
     {
-        $categoria = CategoriaProducto::findOrFail($id);
-        $categoria->delete();
+        try {
+            $categoria = CategoriaProducto::findOrFail($id);
+            $categoria->delete();
 
-        return redirect()->route('categoria_producto.index')->with('success', 'Categoría eliminada correctamente.');
+            return redirect()->route('categoria_producto.index')->with('success', 'Categoría eliminada correctamente.');
+        } catch (QueryException $e) {
+            if ($e->errorInfo[1] == 1451) {
+                return redirect()->route('categoria_producto.index')
+                                 ->with('error', 'No se puede eliminar esta categoría porque tiene productos asociados.');
+            }
+            return redirect()->route('categoria_producto.index')
+                             ->with('error', 'Error al eliminar la categoría.');
+        }
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ProductoTerminado;
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class ProductoTerminadoController extends Controller
 {
@@ -36,17 +37,18 @@ class ProductoTerminadoController extends Controller
         ]);
 
         ProductoTerminado::create($request->all());
-        return redirect()->route('producto_terminado.index')->with('success', 'Producto terminado creado correctamente.');
+
+        return redirect()->route('producto_terminado.index')
+                         ->with('success', 'Producto terminado creado correctamente.');
     }
 
-    public function edit($id)
+    public function edit(ProductoTerminado $producto_terminado)
     {
-        $producto_terminado = ProductoTerminado::findOrFail($id);
         $productos = Producto::all();
         return view('producto_terminado.edit', compact('producto_terminado', 'productos'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, ProductoTerminado $producto_terminado)
     {
         $request->validate([
             'Nombre_producto_terminado' => 'required|max:30',
@@ -61,17 +63,26 @@ class ProductoTerminadoController extends Controller
             'id_producto_FK' => 'required|exists:producto,id_producto',
         ]);
 
-        $producto_terminado = ProductoTerminado::findOrFail($id);
         $producto_terminado->update($request->all());
 
-        return redirect()->route('producto_terminado.index')->with('success', 'Producto terminado actualizado correctamente.');
+        return redirect()->route('producto_terminado.index')
+                         ->with('success', 'Producto terminado actualizado correctamente.');
     }
 
-    public function destroy($id)
+    public function destroy(ProductoTerminado $producto_terminado)
     {
-        $producto_terminado = ProductoTerminado::findOrFail($id);
-        $producto_terminado->delete();
+        try {
+            $producto_terminado->delete();
 
-        return redirect()->route('producto_terminado.index')->with('success', 'Producto terminado eliminado correctamente.');
+            return redirect()->route('producto_terminado.index')
+                             ->with('success', 'Producto terminado eliminado correctamente.');
+        } catch (QueryException $e) {
+            if ($e->errorInfo[1] == 1451) {
+                return redirect()->route('producto_terminado.index')
+                                 ->with('error', 'No se puede eliminar este producto terminado porque tiene registros asociados.');
+            }
+            return redirect()->route('producto_terminado.index')
+                             ->with('error', 'Error al eliminar el producto terminado.');
+        }
     }
 }

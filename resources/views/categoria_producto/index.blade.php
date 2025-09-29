@@ -5,6 +5,15 @@
 @section('content')
   <h1 class="section-title">Lista de Categorías</h1>
 
+  <!-- Mensajes de alerta -->
+  @if (session('success'))
+      <div class="alert alert-success">{{ session('success') }}</div>
+  @endif
+
+  @if (session('error'))
+      <div class="alert alert-danger">{{ session('error') }}</div>
+  @endif
+
   <a href="{{ route('categoria_producto.create') }}" class="btn btn-add">➕ Nueva Categoría</a>
 
   <table class="styled-table">

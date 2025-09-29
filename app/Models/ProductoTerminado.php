@@ -2,16 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductoTerminado extends Model
 {
-    use HasFactory;
-
     protected $table = 'producto_terminado';
     protected $primaryKey = 'id_producto_terminado';
-    public $timestamps = false; // como no tienes created_at ni updated_at
+    public $timestamps = false;
 
     protected $fillable = [
         'Nombre_producto_terminado',
@@ -23,11 +20,16 @@ class ProductoTerminado extends Model
         'Stock_min_producto_terminado',
         'Estado_producto_terminado',
         'Fecha_ingreso_producto_terminado',
-        'id_producto_FK',
+        'id_producto_FK'
     ];
 
     public function producto()
     {
-        return $this->belongsTo(Producto::class, 'id_producto_FK');
+        return $this->belongsTo(Producto::class, 'id_producto_FK', 'id_producto');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'id_producto_terminado';
     }
 }

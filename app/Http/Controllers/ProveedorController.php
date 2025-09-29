@@ -17,7 +17,7 @@ class ProveedorController extends Controller
     public function create()
     {
         $usuarios = User::all();
-        $proveedor = null; // Para el formulario compartido
+        $proveedor = null;
         return view('proveedor.create', compact('usuarios', 'proveedor'));
     }
 
@@ -29,7 +29,7 @@ class ProveedorController extends Controller
             'Email_proveedor' => 'nullable|email|max:30',
             'Direccion_proveedor' => 'nullable|max:30',
             'Estado_proveedor' => 'required|in:Activo,Inactivo',
-            'id_usuario_FK' => 'required|exists:users,id',
+            'id_usuario_FK' => 'required|exists:usuario,id_usuario',
         ]);
 
         Proveedor::create($request->all());
@@ -51,7 +51,7 @@ class ProveedorController extends Controller
             'Email_proveedor' => 'nullable|email|max:30',
             'Direccion_proveedor' => 'nullable|max:30',
             'Estado_proveedor' => 'required|in:Activo,Inactivo',
-            'id_usuario_FK' => 'required|exists:users,id',
+            'id_usuario_FK' => 'required|exists:usuario,id_usuario',
         ]);
 
         $proveedor = Proveedor::findOrFail($id);

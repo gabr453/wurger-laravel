@@ -263,8 +263,9 @@
         <span>WURGER</span>
       </div>
       <ul class="nav-links">
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="logout.html"><button class="btn-login">Cerrar Sesión</button></a></li>
+       
+        <li><a href="{{ url('inicio') }}">Inicio</a></li>
+        <li><a href="{{ url('login') }}"><button class="btn-login">Cerrar Sesión</button></a></li>
       </ul>
       <div class="hamburger" id="hamburger">
         <i class="fas fa-bars"></i>

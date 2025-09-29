@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
 
 class Proveedor extends Model
 {
@@ -12,7 +11,7 @@ class Proveedor extends Model
 
     protected $table = 'proveedor';
     protected $primaryKey = 'id_proveedor';
-    public $timestamps = false; // Si tu tabla no tiene created_at y updated_at
+    public $timestamps = false;
 
     protected $fillable = [
         'Nom_proveedor',
@@ -23,9 +22,8 @@ class Proveedor extends Model
         'id_usuario_FK',
     ];
 
-    // Relación con Usuario
     public function usuario()
     {
-        return $this->belongsTo(User::class, 'id_usuario_FK');
+        return $this->belongsTo(User::class, 'id_usuario_FK', 'id_usuario');
     }
 }
