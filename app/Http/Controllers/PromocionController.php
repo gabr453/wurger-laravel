@@ -8,9 +8,35 @@ use Illuminate\Http\Request;
 
 class PromocionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $promociones = Promocion::with('producto')->get();
+        $query = Promocion::with('producto');
+
+        // filtros dinámicos
+        if ($request->filled('nombre')) {
+            $query->where('Nombre_promocion', 'like', '%' . $request->nombre . '%');
+        }
+
+        if ($request->filled('producto')) {
+            $query->whereHas('producto', function ($q) use ($request) {
+                $q->where('Nombre_producto', 'like', '%' . $request->producto . '%');
+            });
+        }
+
+        if ($request->filled('estado')) {
+            $query->where('Estado_promocion', $request->estado);
+        }
+
+        if ($request->filled('fecha_inicio')) {
+            $query->whereDate('Inicio_promocion', '>=', $request->fecha_inicio);
+        }
+
+        if ($request->filled('fecha_fin')) {
+            $query->whereDate('Fin_promocion', '<=', $request->fecha_fin);
+        }
+
+        $promociones = $query->paginate(10)->appends($request->all());
+
         return view('promocion.index', compact('promociones'));
     }
 

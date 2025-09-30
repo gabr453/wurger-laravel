@@ -41,7 +41,7 @@
   <h2 class="section-title">Nuestro Menú</h2>
   <div class="menu-container">
     <div class="menu-item">
-      <img src="./img/ham-1.jpg" alt="Hamburguesa Clásica con queso y vegetales frescos">
+    <img src="{{ asset('img/ham-1.jpg') }}" alt="Hamburguesa Clásica con queso y vegetales frescos">
       <h3>Clásica</h3>
       <p>Carne 200g, queso cheddar, lechuga, tomate y salsa especial</p>
       <span class="price">$12.99</span>

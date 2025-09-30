@@ -8,10 +8,44 @@ use Illuminate\Http\Request;
 
 class ProductoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $productos = Producto::with('categoria')->get();
-        return view('producto.index', compact('productos'));
+        $query = Producto::with('categoria');
+
+        // Filtros
+        if ($request->filled('nombre')) {
+            $query->where('Nombre_producto', 'like', '%' . $request->nombre . '%');
+        }
+
+        if ($request->filled('estado')) {
+            $query->where('Estado_producto', $request->estado);
+        }
+
+        if ($request->filled('categoria')) {
+            $query->where('id_categoria_FK', $request->categoria);
+        }
+
+        if ($request->filled('stock_min')) {
+            $query->where('Stock_producto', '>=', $request->stock_min);
+        }
+
+        if ($request->filled('stock_max')) {
+            $query->where('Stock_producto', '<=', $request->stock_max);
+        }
+
+        if ($request->filled('precio_min')) {
+            $query->where('Precio_venta', '>=', $request->precio_min);
+        }
+
+        if ($request->filled('precio_max')) {
+            $query->where('Precio_venta', '<=', $request->precio_max);
+        }
+
+        $productos = $query->orderBy('id_producto', 'asc')->get();
+
+        $categorias = CategoriaProducto::all();
+
+        return view('producto.index', compact('productos', 'categorias'));
     }
 
     public function create()
@@ -67,25 +101,22 @@ class ProductoController extends Controller
         return redirect()->route('producto.index')->with('success', 'Producto actualizado correctamente.');
     }
 
-   public function destroy($id)
-{
-    try {
-        $producto = Producto::findOrFail($id);
-        $producto->delete();
+    public function destroy($id)
+    {
+        try {
+            $producto = Producto::findOrFail($id);
+            $producto->delete();
 
-        return redirect()->route('producto.index')
-            ->with('success', 'Producto eliminado correctamente.');
-    } catch (\Illuminate\Database\QueryException $e) {
-        // Código del error de restricción de clave foránea
-        if ($e->getCode() == "23000") {
             return redirect()->route('producto.index')
-                ->with('error', 'No se puede eliminar el producto porque está relacionado con otros registros.');
+                ->with('success', 'Producto eliminado correctamente.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == "23000") {
+                return redirect()->route('producto.index')
+                    ->with('error', 'No se puede eliminar el producto porque está relacionado con otros registros.');
+            }
+
+            return redirect()->route('producto.index')
+                ->with('error', 'Ocurrió un error al intentar eliminar el producto.');
         }
-
-        // Otro error
-        return redirect()->route('producto.index')
-            ->with('error', 'Ocurrió un error al intentar eliminar el producto.');
     }
-}
-
 }

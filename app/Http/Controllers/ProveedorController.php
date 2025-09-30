@@ -8,9 +8,39 @@ use Illuminate\Http\Request;
 
 class ProveedorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $proveedores = Proveedor::with('usuario')->get();
+        $query = Proveedor::with('usuario');
+
+        // filtros dinámicos
+        if ($request->filled('nombre')) {
+            $query->where('Nom_proveedor', 'like', '%' . $request->nombre . '%');
+        }
+
+        if ($request->filled('telefono')) {
+            $query->where('Tel_proveedor', 'like', '%' . $request->telefono . '%');
+        }
+
+        if ($request->filled('email')) {
+            $query->where('Email_proveedor', 'like', '%' . $request->email . '%');
+        }
+
+        if ($request->filled('direccion')) {
+            $query->where('Direccion_proveedor', 'like', '%' . $request->direccion . '%');
+        }
+
+        if ($request->filled('estado')) {
+            $query->where('Estado_proveedor', $request->estado);
+        }
+
+        if ($request->filled('usuario')) {
+            $query->whereHas('usuario', function ($q) use ($request) {
+                $q->where('Nom_usuario', 'like', '%' . $request->usuario . '%');
+            });
+        }
+
+        $proveedores = $query->paginate(10)->appends($request->all());
+
         return view('proveedor.index', compact('proveedores'));
     }
 

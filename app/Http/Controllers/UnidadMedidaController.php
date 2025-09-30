@@ -8,10 +8,32 @@ use Illuminate\Http\Request;
 
 class UnidadMedidaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $unidades = UnidadMedida::with('producto')->get();
-        return view('unidad_medida.index', compact('unidades'));
+        $query = UnidadMedida::with('producto');
+
+        // Filtro por nombre
+        if ($request->filled('nombre')) {
+            $query->where('Nombre_unidad', 'like', '%' . $request->nombre . '%');
+        }
+
+        // Filtro por rango de cantidad
+        if ($request->filled('cantidad_min')) {
+            $query->where('Cantidad_unidad', '>=', $request->cantidad_min);
+        }
+        if ($request->filled('cantidad_max')) {
+            $query->where('Cantidad_unidad', '<=', $request->cantidad_max);
+        }
+
+        // Filtro por producto
+        if ($request->filled('producto')) {
+            $query->where('id_producto_FK', $request->producto);
+        }
+
+        $unidades = $query->orderBy('id_unidad', 'asc')->get();
+        $productos = Producto::all();
+
+        return view('unidad_medida.index', compact('unidades', 'productos'));
     }
 
     public function create()

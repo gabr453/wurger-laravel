@@ -9,8 +9,7 @@
     <form action="{{ route('unidad_medida.store') }}" method="POST">
         @csrf
         @include('unidad_medida.form')
-        <button type="submit" class="btn btn-success">Guardar</button>
-        <a href="{{ route('unidad_medida.index') }}" class="btn btn-secondary">Cancelar</a>
+
     </form>
 </div>
 @endsection

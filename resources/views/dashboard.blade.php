@@ -40,7 +40,6 @@
         </a>
         <ul class="submenu">
           <li><a href="{{ url('producto') }}">Producto</a></li>
-          <li><a href="{{ url('producto_terminado') }}">Producto Terminado</a></li>
           <li><a href="{{ url('unidad_medida') }}">Unidad de Medida</a></li>
           <li><a href="{{ url('movimiento') }}">Movimiento</a></li>
           <li><a href="{{ url('detalle_movimiento') }}">Detalle Movimiento</a></li>

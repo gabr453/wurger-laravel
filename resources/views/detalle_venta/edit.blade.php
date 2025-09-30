@@ -9,8 +9,7 @@
     <form action="{{ route('detalle_venta.update', $detalle->id_detalle_venta) }}" method="POST">
         @csrf @method('PUT')
         @include('detalle_venta.form')
-        <button type="submit" class="btn btn-success">Actualizar</button>
-        <a href="{{ route('detalle_venta.index') }}" class="btn btn-secondary">Cancelar</a>
+
     </form>
 </div>
 @endsection

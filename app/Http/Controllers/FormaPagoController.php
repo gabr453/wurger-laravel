@@ -8,10 +8,24 @@ use Illuminate\Http\Request;
 
 class FormaPagoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $formasPago = FormaPago::with('venta')->get();
-        return view('forma_pago.index', compact('formasPago'));
+        $query = FormaPago::with('venta');
+
+        // 🔎 Filtro por nombre (coincidencia parcial)
+        if ($request->filled('nombre')) {
+            $query->where('Nombre_fp', 'like', '%' . $request->nombre . '%');
+        }
+
+        // 🔎 Filtro por venta asociada
+        if ($request->filled('venta')) {
+            $query->where('id_venta_FK', $request->venta);
+        }
+
+        $formasPago = $query->get();
+        $ventas = Venta::all();
+
+        return view('forma_pago.index', compact('formasPago', 'ventas'));
     }
 
     public function create()

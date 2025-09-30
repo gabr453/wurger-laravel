@@ -8,10 +8,36 @@ use Illuminate\Http\Request;
 
 class PedidoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pedidos = Pedido::with('cliente')->get();
-        return view('pedido.index', compact('pedidos'));
+        $query = Pedido::with('cliente');
+
+        // 🔹 Filtro por estado
+        if ($request->filled('estado')) {
+            $query->where('Estado_pedido', $request->estado);
+        }
+
+        // 🔹 Filtro por cliente
+        if ($request->filled('cliente')) {
+            $query->whereHas('cliente', function ($q) use ($request) {
+                $q->where('Nom_cliente', 'like', '%' . $request->cliente . '%');
+            });
+        }
+
+        // 🔹 Filtro por fecha desde
+        if ($request->filled('fecha_desde')) {
+            $query->whereDate('Fecha_pedido', '>=', $request->fecha_desde);
+        }
+
+        // 🔹 Filtro por fecha hasta
+        if ($request->filled('fecha_hasta')) {
+            $query->whereDate('Fecha_pedido', '<=', $request->fecha_hasta);
+        }
+
+        $pedidos = $query->paginate(10);
+        $clientes = Cliente::all(); // para un select si lo quieres
+
+        return view('pedido.index', compact('pedidos', 'clientes'));
     }
 
     public function create()

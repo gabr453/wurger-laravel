@@ -10,8 +10,7 @@
         @csrf
         @method('PUT')
         @include('tipo_descuento.form', ['tipoDescuento' => $tipoDescuento])
-        <button type="submit" class="btn btn-success">Actualizar</button>
-        <a href="{{ route('tipo_descuento.index') }}" class="btn btn-secondary">Cancelar</a>
+
     </form>
 </div>
 @endsection

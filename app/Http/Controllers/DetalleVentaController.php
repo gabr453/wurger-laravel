@@ -8,15 +8,42 @@ use Illuminate\Http\Request;
 
 class DetalleVentaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $detalles = DetalleVenta::with('venta')->get();
-        return view('detalle_venta.index', compact('detalles'));
+        $query = DetalleVenta::with('venta');
+
+        // 🔎 Filtros
+        if ($request->filled('cantidad_min')) {
+            $query->where('Cantidad_detalle_venta', '>=', $request->cantidad_min);
+        }
+
+        if ($request->filled('cantidad_max')) {
+            $query->where('Cantidad_detalle_venta', '<=', $request->cantidad_max);
+        }
+
+        if ($request->filled('precio_min')) {
+            $query->where('Precio_unitario', '>=', $request->precio_min);
+        }
+
+        if ($request->filled('precio_max')) {
+            $query->where('Precio_unitario', '<=', $request->precio_max);
+        }
+
+        if ($request->filled('venta')) {
+            $query->whereHas('venta', function ($q) use ($request) {
+                $q->where('id_venta', $request->venta);
+            });
+        }
+
+        $detalles = $query->get();
+        $ventas = Venta::all();
+
+        return view('detalle_venta.index', compact('detalles', 'ventas'));
     }
 
     public function create()
     {
-        $ventas = Venta::all(); // Para seleccionar la venta relacionada
+        $ventas = Venta::all();
         return view('detalle_venta.create', compact('ventas'));
     }
 

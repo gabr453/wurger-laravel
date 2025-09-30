@@ -3,6 +3,27 @@
 <head>
     <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* CSS personalizado */
+        .register-link {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .register-link a {
+            display: inline-block;
+            padding: 8px 47px;
+            background-color: #28a745; /* Verde */
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .register-link a:hover {
+            background-color: #218838; /* Verde más oscuro */
+        }
+    </style>
 </head>
 <body class="d-flex justify-content-center align-items-center vh-100">
     <div class="card p-4" style="width: 350px;">
@@ -25,6 +46,11 @@
                 {{ $errors->first() }}
             </div>
         @endif
+
+        <!-- Botón de registro -->
+        <div class="register-link">
+            <a href="{{ route('register') }}">¿No tienes cuenta? Regístrate</a>
+        </div>
     </div>
 </body>
 </html>

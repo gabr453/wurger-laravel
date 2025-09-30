@@ -247,9 +247,9 @@
     <ul class="sidebar-menu">
       <li><a href="{{ url('dashboard_cliente') }}"><i class="fas fa-home"></i> Dashboard</a></li>
       <li><a href="{{ url('pedido') }}"><i class="fas fa-receipt"></i> Mis Pedidos</a></li>
+      <li><a href="{{ url('forma_pago') }}"><i class="fas fa-credit-card"></i> Forma de Pago</a></li>
       <li><a href="{{ url('promociones') }}"><i class="fas fa-gift"></i> Promociones</a></li>
       <li><a href="{{ url('productos') }}"><i class="fas fa-hamburger"></i> Productos</a></li>
-      <li><a href="perfil.html"><i class="fas fa-user"></i> Mi Perfil</a></li>
     </ul>
   </div>
 

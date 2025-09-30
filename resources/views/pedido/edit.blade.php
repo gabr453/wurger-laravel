@@ -10,8 +10,7 @@
         @csrf
         @method('PUT')
         @include('pedido.form', ['pedido' => $pedido])
-        <button type="submit" class="btn btn-success">Actualizar</button>
-        <a href="{{ route('pedido.index') }}" class="btn btn-secondary">Cancelar</a>
+ 
     </form>
 </div>
 @endsection

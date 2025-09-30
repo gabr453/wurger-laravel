@@ -8,16 +8,37 @@ use Illuminate\Http\Request;
 
 class TipoDescuentoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tiposDescuento = TipoDescuento::with('formaPago')->get();
-        return view('tipo_descuento.index', compact('tiposDescuento'));
+        // Consulta base con relación
+        $query = TipoDescuento::with('formaPago');
+
+        // Filtros
+        if ($request->filled('id_tipo_descuento')) {
+            $query->where('id_tipo_descuento', $request->id_tipo_descuento);
+        }
+
+        if ($request->filled('Nombre_tipo_descuento')) {
+            $query->where('Nombre_tipo_descuento', 'like', '%' . $request->Nombre_tipo_descuento . '%');
+        }
+
+        if ($request->filled('id_fp_FK')) {
+            $query->where('id_fp_FK', $request->id_fp_FK);
+        }
+
+        // Ejecutar consulta
+        $tiposDescuento = $query->get();
+
+        // Para el select en el filtro
+        $formasPago = FormaPago::all();
+
+        return view('tipo_descuento.index', compact('tiposDescuento', 'formasPago'));
     }
 
     public function create()
     {
         $formasPago = FormaPago::all();
-        $tipoDescuento = null; // Necesario para el formulario compartido
+        $tipoDescuento = null; // Para formulario compartido
         return view('tipo_descuento.create', compact('formasPago', 'tipoDescuento'));
     }
 

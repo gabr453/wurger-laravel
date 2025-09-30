@@ -8,10 +8,37 @@ use Illuminate\Http\Request;
 
 class MovimientoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $movimientos = Movimiento::with('producto')->get();
-        return view('movimiento.index', compact('movimientos'));
+        $query = Movimiento::with('producto');
+
+        // FILTROS
+        if ($request->filled('Tipo_movimiento')) {
+            $query->where('Tipo_movimiento', $request->Tipo_movimiento);
+        }
+
+        if ($request->filled('id_producto_FK')) {
+            $query->where('id_producto_FK', $request->id_producto_FK);
+        }
+
+        if ($request->filled('fecha_desde')) {
+            $query->whereDate('Fecha_movimiento', '>=', $request->fecha_desde);
+        }
+
+        if ($request->filled('fecha_hasta')) {
+            $query->whereDate('Fecha_movimiento', '<=', $request->fecha_hasta);
+        }
+
+        if ($request->filled('descripcion')) {
+            $query->where('Descripcion_movimiento', 'LIKE', "%{$request->descripcion}%");
+        }
+
+        // Paginación con filtros persistentes
+        $movimientos = $query->orderBy('Fecha_movimiento', 'desc')->paginate(10)->appends($request->all());
+
+        $productos = Producto::all();
+
+        return view('movimiento.index', compact('movimientos', 'productos'));
     }
 
     public function create()

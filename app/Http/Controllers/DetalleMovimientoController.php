@@ -8,9 +8,39 @@ use Illuminate\Http\Request;
 
 class DetalleMovimientoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $detalles = DetalleMovimiento::with('movimiento')->get();
+        $query = DetalleMovimiento::with('movimiento');
+
+        // Filtros dinámicos
+        if ($request->filled('cantidad_min')) {
+            $query->where('Cantidad_detalle_movimiento', '>=', $request->cantidad_min);
+        }
+
+        if ($request->filled('cantidad_max')) {
+            $query->where('Cantidad_detalle_movimiento', '<=', $request->cantidad_max);
+        }
+
+        if ($request->filled('tipo_movimiento')) {
+            $query->whereHas('movimiento', function ($q) use ($request) {
+                $q->where('Tipo_movimiento', $request->tipo_movimiento);
+            });
+        }
+
+        if ($request->filled('fecha_desde')) {
+            $query->whereHas('movimiento', function ($q) use ($request) {
+                $q->whereDate('Fecha_movimiento', '>=', $request->fecha_desde);
+            });
+        }
+
+        if ($request->filled('fecha_hasta')) {
+            $query->whereHas('movimiento', function ($q) use ($request) {
+                $q->whereDate('Fecha_movimiento', '<=', $request->fecha_hasta);
+            });
+        }
+
+        $detalles = $query->paginate(10);
+
         return view('detalle_movimiento.index', compact('detalles'));
     }
 

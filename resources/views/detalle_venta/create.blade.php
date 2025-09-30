@@ -9,8 +9,7 @@
     <form action="{{ route('detalle_venta.store') }}" method="POST">
         @csrf
         @include('detalle_venta.form')
-        <button type="submit" class="btn btn-success">Guardar</button>
-        <a href="{{ route('detalle_venta.index') }}" class="btn btn-secondary">Cancelar</a>
+
     </form>
 </div>
 @endsection

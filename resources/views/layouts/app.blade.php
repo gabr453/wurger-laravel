@@ -37,7 +37,6 @@
         </a>
         <ul class="submenu">
           <li><a href="{{ url('producto') }}">Producto</a></li>
-          <li><a href="{{ url('producto_terminado') }}">Producto Terminado</a></li>
           <li><a href="{{ url('unidad_medida') }}">Unidad de Medida</a></li>
           <li><a href="{{ url('movimiento') }}">Movimiento</a></li>
           <li><a href="{{ url('detalle_movimiento') }}">Detalle Movimiento</a></li>
@@ -85,8 +84,6 @@
         </ul>
       </li>
 
-      {{-- Configuración --}}
-      <li><a href="{{ url('confi') }}"><i class="fas fa-cog"></i> Configuración</a></li>
 
       {{-- Reportes --}}
       <li><a href="{{ route('reportes.index') }}"><i class="fas fa-file-pdf"></i> Reportes</a></li>
@@ -95,25 +92,7 @@
 
   {{-- Contenido principal --}}
   <div class="content-wrapper">
-    {{-- Navbar --}}
-    <nav class="navbar">
-      <div class="logo">
-        <i class="fas fa-hamburger"></i>
-        <span>WURGER</span>
-      </div>
-      <ul class="nav-links">
-        <li><a href="{{ url('/') }}#inicio">Inicio</a></li>
-        <li><a href="{{ url('/') }}#menu">Menú</a></li>
-        <li><a href="{{ url('/') }}#promos">Promos</a></li>
-        <li><a href="{{ url('/') }}#nosotros">Nosotros</a></li>
-        <li><a href="{{ url('dashboard') }}">Dashboard</a></li>
-        <li><a href="{{ url('login') }}"><button class="btn-login">Iniciar Sesión</button></a></li>
-      </ul>
-      <div class="hamburger" id="hamburger">
-        <i class="fas fa-bars"></i>
-      </div>
-    </nav>
-
+    
     {{-- Aquí se inyecta el contenido dinámico --}}
     <div class="main-content">
       @yield('content')

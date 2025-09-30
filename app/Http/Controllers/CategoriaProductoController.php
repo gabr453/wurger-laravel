@@ -4,13 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoriaProducto;
 use Illuminate\Http\Request;
-use Illuminate\Database\QueryException; // Para capturar errores SQL
+use Illuminate\Database\QueryException;
 
 class CategoriaProductoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categorias = CategoriaProducto::all();
+        $query = CategoriaProducto::query();
+
+        // Filtros
+        if ($request->filled('nombre')) {
+            $query->where('Nombre_categoria', 'like', '%' . $request->nombre . '%');
+        }
+
+        if ($request->filled('cantidad_min')) {
+            $query->where('cantidad_categoria', '>=', $request->cantidad_min);
+        }
+
+        if ($request->filled('cantidad_max')) {
+            $query->where('cantidad_categoria', '<=', $request->cantidad_max);
+        }
+
+        $categorias = $query->orderBy('id_categoria', 'asc')->get();
+
         return view('categoria_producto.index', compact('categorias'));
     }
 
